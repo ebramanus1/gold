@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		8CE520032E067A21007457B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CE51FEC2E067A20007457B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CE51FF32E067A20007457B1;
+			remoteInfo = iuyhg.com;
+		};
+		8CE5200D2E067A21007457B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CE51FEC2E067A20007457B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CE51FF32E067A20007457B1;
+			remoteInfo = iuyhg.com;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8CE51FF42E067A20007457B1 /* iuyhg.com.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iuyhg.com.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CE520022E067A21007457B1 /* iuyhg.comTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iuyhg.comTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CE5200C2E067A21007457B1 /* iuyhg.comUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iuyhg.comUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8CE51FF62E067A20007457B1 /* iuyhg.com */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iuyhg.com;
+			sourceTree = "<group>";
+		};
+		8CE520052E067A21007457B1 /* iuyhg.comTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iuyhg.comTests;
+			sourceTree = "<group>";
+		};
+		8CE5200F2E067A21007457B1 /* iuyhg.comUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iuyhg.comUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8CE51FF12E067A20007457B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE51FFF2E067A21007457B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE520092E067A21007457B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8CE51FEB2E067A20007457B1 = {
+			isa = PBXGroup;
+			children = (
+				8CE51FF62E067A20007457B1 /* iuyhg.com */,
+				8CE520052E067A21007457B1 /* iuyhg.comTests */,
+				8CE5200F2E067A21007457B1 /* iuyhg.comUITests */,
+				8CE51FF52E067A20007457B1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8CE51FF52E067A20007457B1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8CE51FF42E067A20007457B1 /* iuyhg.com.app */,
+				8CE520022E067A21007457B1 /* iuyhg.comTests.xctest */,
+				8CE5200C2E067A21007457B1 /* iuyhg.comUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8CE51FF32E067A20007457B1 /* iuyhg.com */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CE520162E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.com" */;
+			buildPhases = (
+				8CE51FF02E067A20007457B1 /* Sources */,
+				8CE51FF12E067A20007457B1 /* Frameworks */,
+				8CE51FF22E067A20007457B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8CE51FF62E067A20007457B1 /* iuyhg.com */,
+			);
+			name = iuyhg.com;
+			packageProductDependencies = (
+			);
+			productName = iuyhg.com;
+			productReference = 8CE51FF42E067A20007457B1 /* iuyhg.com.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8CE520012E067A21007457B1 /* iuyhg.comTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CE520192E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.comTests" */;
+			buildPhases = (
+				8CE51FFE2E067A21007457B1 /* Sources */,
+				8CE51FFF2E067A21007457B1 /* Frameworks */,
+				8CE520002E067A21007457B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8CE520042E067A21007457B1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8CE520052E067A21007457B1 /* iuyhg.comTests */,
+			);
+			name = iuyhg.comTests;
+			packageProductDependencies = (
+			);
+			productName = iuyhg.comTests;
+			productReference = 8CE520022E067A21007457B1 /* iuyhg.comTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8CE5200B2E067A21007457B1 /* iuyhg.comUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CE5201C2E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.comUITests" */;
+			buildPhases = (
+				8CE520082E067A21007457B1 /* Sources */,
+				8CE520092E067A21007457B1 /* Frameworks */,
+				8CE5200A2E067A21007457B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8CE5200E2E067A21007457B1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8CE5200F2E067A21007457B1 /* iuyhg.comUITests */,
+			);
+			name = iuyhg.comUITests;
+			packageProductDependencies = (
+			);
+			productName = iuyhg.comUITests;
+			productReference = 8CE5200C2E067A21007457B1 /* iuyhg.comUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8CE51FEC2E067A20007457B1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					8CE51FF32E067A20007457B1 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					8CE520012E067A21007457B1 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8CE51FF32E067A20007457B1;
+					};
+					8CE5200B2E067A21007457B1 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8CE51FF32E067A20007457B1;
+					};
+				};
+			};
+			buildConfigurationList = 8CE51FEF2E067A20007457B1 /* Build configuration list for PBXProject "iuyhg.com" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8CE51FEB2E067A20007457B1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8CE51FF52E067A20007457B1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8CE51FF32E067A20007457B1 /* iuyhg.com */,
+				8CE520012E067A21007457B1 /* iuyhg.comTests */,
+				8CE5200B2E067A21007457B1 /* iuyhg.comUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8CE51FF22E067A20007457B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE520002E067A21007457B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE5200A2E067A21007457B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8CE51FF02E067A20007457B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE51FFE2E067A21007457B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CE520082E067A21007457B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8CE520042E067A21007457B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CE51FF32E067A20007457B1 /* iuyhg.com */;
+			targetProxy = 8CE520032E067A21007457B1 /* PBXContainerItemProxy */;
+		};
+		8CE5200E2E067A21007457B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CE51FF32E067A20007457B1 /* iuyhg.com */;
+			targetProxy = 8CE5200D2E067A21007457B1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8CE520142E067A21007457B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8CE520152E067A21007457B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		8CE520172E067A21007457B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iuyhg.com/iuyhg_com.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-com";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8CE520182E067A21007457B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iuyhg.com/iuyhg_com.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-com";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8CE5201A2E067A21007457B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-comTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iuyhg.com.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iuyhg.com";
+			};
+			name = Debug;
+		};
+		8CE5201B2E067A21007457B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-comTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iuyhg.com.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iuyhg.com";
+			};
+			name = Release;
+		};
+		8CE5201D2E067A21007457B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-comUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = iuyhg.com;
+			};
+			name = Debug;
+		};
+		8CE5201E2E067A21007457B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ug.iuyhg-comUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = iuyhg.com;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8CE51FEF2E067A20007457B1 /* Build configuration list for PBXProject "iuyhg.com" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CE520142E067A21007457B1 /* Debug */,
+				8CE520152E067A21007457B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CE520162E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.com" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CE520172E067A21007457B1 /* Debug */,
+				8CE520182E067A21007457B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CE520192E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.comTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CE5201A2E067A21007457B1 /* Debug */,
+				8CE5201B2E067A21007457B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CE5201C2E067A21007457B1 /* Build configuration list for PBXNativeTarget "iuyhg.comUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CE5201D2E067A21007457B1 /* Debug */,
+				8CE5201E2E067A21007457B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8CE51FEC2E067A20007457B1 /* Project object */;
+}

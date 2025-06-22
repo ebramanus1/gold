@@ -1,0 +1,143 @@
+name: gold_workshop_ai
+description: نظام إدارة ورشة الذهب - تطبيق شامل لإدارة ورش الذهب والمجوهرات
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # UI & Design
+  cupertino_icons: ^1.0.6
+  material_design_icons_flutter: ^7.0.7296
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  flutter_staggered_grid_view: ^0.7.0
+
+  # State Management
+  provider: ^6.1.1
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+
+  # Charts & Graphs
+  fl_chart: ^0.68.0
+
+  # Database & Storage
+  sqflite: ^2.3.0
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.18
+  path_provider: ^2.1.1
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # PostgreSQL Database
+  postgres: ^3.0.2
+
+  # Networking & API
+  http: ^1.4.0
+  dio: ^5.4.0
+  retrofit: ^4.0.3
+  json_annotation: ^4.9.0
+
+  # Local Network & Device Info
+  network_info_plus: ^6.1.4
+  connectivity_plus: ^6.1.4
+  device_info_plus: ^10.1.0
+  package_info_plus: ^8.3.0
+
+  # Authentication & Security
+  crypto: ^3.0.3
+  encrypt: ^5.0.1
+  local_auth: ^2.1.7
+  flutter_secure_storage: ^10.0.0-beta.4
+
+  # Internationalization
+  easy_localization: ^3.0.3
+
+  # Date & Time
+  persian_datetime_picker: ^3.1.0
+  # syncfusion_flutter_datepicker تمت إزالته لتجنب تعارض intl
+
+  # Reports & PDF
+  syncfusion_flutter_pdf: ^29.2.11
+  pdf: ^3.10.7
+  printing: ^5.12.0
+
+  # File Handling
+  file_picker: ^10.2.0
+  open_file: ^3.3.2
+  path: ^1.8.3
+
+  # Hardware Integration
+  camera: ^0.10.5
+  barcode_scan2: ^4.3.1
+  qr_code_scanner: ^1.0.1
+
+  # Utilities
+  uuid: ^4.2.1
+  logger: ^2.0.2+1
+  url_launcher: ^6.2.2
+
+  # Desktop Specific
+  window_manager: ^0.5.0
+  desktop_window: ^0.4.0
+
+  # Backup & Cloud
+  googleapis: ^13.2.0
+  googleapis_auth: ^1.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+  # Code Generation
+  build_runner: ^2.4.7
+  json_serializable: ^6.9.0
+  retrofit_generator: ^9.1.5
+  drift_dev: ^2.14.1
+  hive_generator: ^2.0.1
+
+  # Testing
+  mockito: ^5.4.4
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/translations/
+    - assets/sounds/
+
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+
+flutter_intl:
+  enabled: true
+  class_name: S
+  main_locale: ar
+  arb_dir: lib/l10n
+  output_dir: lib/generated
+
+dependency_overrides:
+  protobuf: ^4.0.0
