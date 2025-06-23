@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../../services/network/network_config_service.dart';
 import '../../services/network/network_discovery_service.dart';
 import '../../services/sync/data_sync_service.dart';
+import '../../theme/app_theme.dart';
+import '../../utils/ui_constants.dart';
 
 /// شاشة إعدادات الشبكة المحلية
 class NetworkSettingsScreen extends StatefulWidget {
@@ -206,40 +208,108 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('إعدادات الشبكة المحلية'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _checkNetworkStatus,
-            tooltip: 'تحديث حالة الشبكة',
-          ),
-        ],
+        title: const Text('إعدادات الشبكة', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+          padding: const EdgeInsets.all(UIConstants.paddingXXLarge),
+          child: Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+              side: BorderSide(color: Colors.grey.shade200, width: 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(UIConstants.paddingLarge),
               child: Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    _buildNetworkStatusCard(),
+                    TextFormField(
+                      controller: _hostController,
+                      decoration: InputDecoration(
+                        labelText: 'العنوان',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        prefixIcon: const Icon(Icons.dns),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    _buildServerDiscoveryCard(),
+                    TextFormField(
+                      controller: _portController,
+                      decoration: InputDecoration(
+                        labelText: 'المنفذ',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        prefixIcon: const Icon(Icons.settings_ethernet),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    _buildConnectionSettingsCard(),
+                    TextFormField(
+                      controller: _databaseController,
+                      decoration: InputDecoration(
+                        labelText: 'قاعدة البيانات',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        prefixIcon: const Icon(Icons.storage),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    _buildDatabaseSettingsCard(),
+                    TextFormField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'اسم المستخدم',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        prefixIcon: const Icon(Icons.person),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 16),
-                    _buildAdvancedSettingsCard(),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'كلمة المرور',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        prefixIcon: const Icon(Icons.lock),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 24),
-                    _buildActionButtons(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: _isLoading ? null : () {/* حفظ الإعدادات */},
+                        icon: const Icon(Icons.save),
+                        label: const Text('حفظ الإعدادات'),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 

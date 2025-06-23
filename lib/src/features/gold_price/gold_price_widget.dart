@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:your_project/localization/localization.dart'; // تأكد من استيراد ملف الترجمة الصحيح
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/models/gold_item_model.dart';
@@ -11,6 +12,7 @@ class GoldPriceWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goldPriceAsyncValue = ref.watch(goldPriceProvider);
+    final localizations = AppLocalizations.of(context);
 
     return Card(
       elevation: 4,
@@ -23,7 +25,7 @@ class GoldPriceWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'أسعار الذهب الحالية',
+                  localizations.translate('current_gold_prices') ?? 'أسعار الذهب الحالية',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -160,7 +162,7 @@ class GoldPriceWidget extends ConsumerWidget {
         children: [
           CircularProgressIndicator(),
           SizedBox(height: UIConstants.paddingMedium),
-          Text('جاري تحميل أسعار الذهب...'),
+          Text(localizations.translate('loading_gold_prices') ?? 'جاري تحميل أسعار الذهب...'),
         ],
       ),
     );

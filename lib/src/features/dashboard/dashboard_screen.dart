@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../../services/gold_price_service.dart';
 import '../../services/database/postgresql_service.dart'; // Import PostgreSQLService
+import '../../core/localization/app_localizations.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -16,141 +17,145 @@ class DashboardScreen extends ConsumerStatefulWidget {
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(UIConstants.paddingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // عنوان الصفحة
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        title: const Text('الرئيسية', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          color: Colors.white,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(UIConstants.paddingXXLarge),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'لوحة التحكم',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryGold,
-                  ),
-                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.notifications),
-                      onPressed: () {
-                        // عرض الإشعارات
-                      },
+                    Text(
+                      localizations.dashboard,
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primaryGold,
+                      ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: () {
-                        // تحديث البيانات
-                        setState(() {}); // Trigger rebuild to refresh data
-                      },
+                      icon: const Icon(Icons.settings, color: AppTheme.primaryGold),
+                      onPressed: () {/* إعدادات */},
                     ),
                   ],
                 ),
-              ],
-            ),
-
-            const SizedBox(height: UIConstants.paddingLarge),
-
-            // بطاقات الإحصائيات الرئيسية
-            Consumer(
-              builder: (context, ref, child) {
-                final goldPriceAsyncValue = ref.watch(goldPriceProvider);
-                final salesDataFuture = PostgreSQLService.instance.getDailySales();
-                final inventoryDataFuture = PostgreSQLService.instance.getTotalInventory();
-                final pendingOrdersDataFuture = PostgreSQLService.instance.getPendingWorkOrdersCount();
-
-                return FutureBuilder<
-                    List<dynamic>>(
-                  future: Future.wait([
-                    goldPriceAsyncValue.when(
-                      data: (data) => Future.value(data),
-                      loading: () => Future.value(null),
-                      error: (err, stack) => Future.value(null),
+                const SizedBox(height: 32),
+                // بطاقات إحصائيات
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    side: BorderSide(color: Colors.grey.shade200, width: 1),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            const Icon(Icons.people, color: AppTheme.primaryGold, size: 40),
+                            const SizedBox(height: 8),
+                            Text('عدد العملاء', style: Theme.of(context).textTheme.bodyLarge),
+                            Text('123', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Icon(Icons.inventory, color: AppTheme.primaryGold, size: 40),
+                            const SizedBox(height: 8),
+                            Text('عدد المنتجات', style: Theme.of(context).textTheme.bodyLarge),
+                            Text('456', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Icon(Icons.assignment, color: AppTheme.primaryGold, size: 40),
+                            const SizedBox(height: 8),
+                            Text('أوامر العمل', style: Theme.of(context).textTheme.bodyLarge),
+                            Text('78', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ],
                     ),
-                    salesDataFuture,
-                    inventoryDataFuture,
-                    pendingOrdersDataFuture,
-                  ]),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return _buildStatsCards(null, null, null, null);
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('خطأ في تحميل البيانات: ${snapshot.error}'));
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // الرسوم البيانية
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 800) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: _buildSalesChart(),
+                          ),
+                          const SizedBox(width: UIConstants.paddingMedium),
+                          Expanded(
+                            child: _buildInventoryChart(),
+                          ),
+                        ],
+                      );
                     } else {
-                      final goldPrice = snapshot.data?[0] as double?;
-                      final dailySales = snapshot.data?[1] as double?;
-                      final totalInventory = snapshot.data?[2] as int?;
-                      final pendingOrders = snapshot.data?[3] as int?;
-                      return _buildStatsCards(goldPrice, dailySales, totalInventory, pendingOrders);
+                      return Column(
+                        children: [
+                          _buildSalesChart(),
+                          const SizedBox(height: UIConstants.paddingLarge),
+                          _buildInventoryChart(),
+                        ],
+                      );
                     }
                   },
-                );
-              },
+                ),
+
+                const SizedBox(height: UIConstants.paddingLarge),
+
+                // المعاملات الأخيرة والأصناف الأكثر مبيعاً
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 800) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: _buildRecentTransactions(),
+                          ),
+                          const SizedBox(width: UIConstants.paddingMedium),
+                          Expanded(
+                            child: _buildTopSellingItems(),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          _buildRecentTransactions(),
+                          const SizedBox(height: UIConstants.paddingLarge),
+                          _buildTopSellingItems(),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-
-            const SizedBox(height: UIConstants.paddingLarge),
-
-            // الرسوم البيانية
-            LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 800) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: _buildSalesChart(),
-                      ),
-                      const SizedBox(width: UIConstants.paddingMedium),
-                      Expanded(
-                        child: _buildInventoryChart(),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      _buildSalesChart(),
-                      const SizedBox(height: UIConstants.paddingLarge),
-                      _buildInventoryChart(),
-                    ],
-                  );
-                }
-              },
-            ),
-
-            const SizedBox(height: UIConstants.paddingLarge),
-
-            // المعاملات الأخيرة والأصناف الأكثر مبيعاً
-            LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 800) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: _buildRecentTransactions(),
-                      ),
-                      const SizedBox(width: UIConstants.paddingMedium),
-                      Expanded(
-                        child: _buildTopSellingItems(),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      _buildRecentTransactions(),
-                      const SizedBox(height: UIConstants.paddingLarge),
-                      _buildTopSellingItems(),
-                    ],
-                  );
-                }
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

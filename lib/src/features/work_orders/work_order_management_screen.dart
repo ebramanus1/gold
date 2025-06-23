@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/localization/app_localizations.dart';
 import '../work_orders/models/work_order.dart';
 import '../work_orders/services/work_order_service.dart';
 
@@ -65,139 +66,101 @@ class _WorkOrderManagementScreenState extends ConsumerState<WorkOrderManagementS
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('إدارة أوامر العمل'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadWorkOrders,
-          ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showAddWorkOrderDialog(),
-          ),
-        ],
+        title: const Text('إدارة أوامر العمل', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
       ),
-      body: Column(
-        children: [
-          // شريط البحث والفلاتر
-          Container(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                // شريط البحث
-                TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'البحث في أوامر العمل...',
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) => setState(() {}),
-                ),
-                const SizedBox(height: UIConstants.paddingMedium),
-                
-                // الفلاتر
-                Row(
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                child: Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<WorkOrderStatus>(
-                        value: _selectedStatus,
-                        decoration: const InputDecoration(
-                          labelText: 'الحالة',
-                          border: OutlineInputBorder(),
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'بحث عن أمر عمل...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
-                        items: WorkOrderStatus.values.map((status) {
-                          return DropdownMenuItem(
-                            value: status,
-                            child: Text(_getStatusText(status)),
-                          );
-                        }).toList(),
-                        onChanged: (value) => setState(() {
-                          _selectedStatus = value;
-                        }),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
                       ),
                     ),
-                    const SizedBox(width: UIConstants.paddingMedium),
-                    Expanded(
-                      child: DropdownButtonFormField<WorkOrderType>(
-                        value: _selectedType,
-                        decoration: const InputDecoration(
-                          labelText: 'النوع',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: WorkOrderType.values.map((type) {
-                          return DropdownMenuItem(
-                            value: type,
-                            child: Text(_getTypeText(type)),
-                          );
-                        }).toList(),
-                        onChanged: (value) => setState(() {
-                          _selectedType = value;
-                        }),
+                    const SizedBox(width: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {/* إضافة أمر عمل */},
+                      icon: const Icon(Icons.add),
+                      label: const Text('إضافة أمر عمل'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       ),
-                    ),
-                    const SizedBox(width: UIConstants.paddingMedium),
-                    ElevatedButton(
-                      onPressed: () => setState(() {
-                        _selectedStatus = null;
-                        _selectedType = null;
-                        _searchController.clear();
-                      }),
-                      child: const Text('مسح الفلاتر'),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          
-          // قائمة أوامر العمل
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredWorkOrders.isEmpty
-                    ? const Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.work_off,
-                              size: 80,
-                              color: AppTheme.grey400,
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'لا توجد أوامر عمل',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppTheme.grey600,
-                              ),
-                            ),
-                          ],
+              ),
+              Expanded(
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(UIConstants.paddingLarge),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: Colors.grey.shade200, width: 1),
                         ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(UIConstants.paddingMedium),
-                        itemCount: _filteredWorkOrders.length,
-                        itemBuilder: (context, index) {
-                          final order = _filteredWorkOrders[index];
-                          return _buildWorkOrderCard(order);
-                        },
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                          itemCount: _workOrders.length,
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final order = _workOrders[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: AppTheme.primaryGold.withOpacity(0.1),
+                                child: const Icon(Icons.assignment, color: AppTheme.primaryGold),
+                              ),
+                              title: Text(order.description, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(order.status.toString()),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {/* تعديل */},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {/* حذف */},
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -519,6 +482,7 @@ class _WorkOrderDialogState extends ConsumerState<_WorkOrderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return AlertDialog(
       title: Text(widget.workOrder == null ? 'إضافة أمر عمل جديد' : 'تعديل أمر العمل'),
       content: SizedBox(

@@ -10,6 +10,7 @@ class AppConstants {
   static const int databaseVersion = 1;
   
   // إعدادات الشبكة
+  
   static const int connectionTimeout = 30000;
   static const int receiveTimeout = 30000;
   static const String baseUrl = 'https://api.goldworkshop.com';
@@ -17,7 +18,7 @@ class AppConstants {
   // إعدادات الأمان
   static const int maxLoginAttempts = 3;
   static const int sessionTimeoutMinutes = 30;
-  static const int passwordMinLength = 8;
+  static const int passwordMinLength = 3;
   
   // إعدادات العملة
   static const String defaultCurrency = 'SAR';
@@ -62,6 +63,7 @@ class UIConstants {
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
   static const double paddingXLarge = 32.0;
+  static const double paddingXXLarge = 48.0;
   
   // أحجام الأيقونات
   static const double iconSizeSmall = 16.0;

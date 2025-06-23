@@ -129,63 +129,102 @@ class _ClientManagementScreenState extends ConsumerState<ClientManagementScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // عنوان الصفحة والأزرار
-          Container(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'إدارة العملاء',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryGold,
-                  ),
-                ),
-                Row(
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        title: const Text('إدارة العملاء', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                child: Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: _loadClients,
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'بحث عن عميل...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _searchQuery = value;
+                            _filteredClients = _clients.where((c) => c.name.contains(value)).toList();
+                          });
+                        },
+                      ),
                     ),
+                    const SizedBox(width: 16),
                     ElevatedButton.icon(
-                      icon: const Icon(Icons.add),
+                      onPressed: () {/* إضافة عميل جديد */},
+                      icon: const Icon(Icons.person_add),
                       label: const Text('إضافة عميل'),
-                      onPressed: _showAddClientDialog,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          // شريط البحث
-          Padding(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                labelText: 'البحث عن عميل',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
               ),
-              onChanged: _filterClients,
-            ),
+              Expanded(
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(UIConstants.paddingLarge),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: Colors.grey.shade200, width: 1),
+                        ),
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                          itemCount: _filteredClients.length,
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final client = _filteredClients[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: AppTheme.primaryGold.withOpacity(0.1),
+                                child: const Icon(Icons.person, color: AppTheme.primaryGold),
+                              ),
+                              title: Text(client.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(client.phone),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {/* تعديل */},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {/* حذف */},
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+              ),
+            ],
           ),
-          
-          // إحصائيات سريعة
-          _buildQuickStats(),
-          
-          // قائمة العملاء
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredClients.isEmpty
-                    ? _buildEmptyState()
-                    : _buildClientsList(),
-          ),
-        ],
+        ),
       ),
     );
   }

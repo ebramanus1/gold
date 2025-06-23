@@ -5,6 +5,7 @@ import '../../core/models/client_model.dart';
 import '../../services/database/postgresql_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/localization/app_localizations.dart';
 
 class RawMaterialManagementScreen extends ConsumerStatefulWidget {
   const RawMaterialManagementScreen({Key? key}) : super(key: key);
@@ -133,58 +134,109 @@ class _RawMaterialManagementScreenState extends ConsumerState<RawMaterialManagem
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      body: Column(
-        children: [
-          // عنوان الصفحة والأزرار
-          Container(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'إدارة المواد الخام',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryGold,
-                  ),
-                ),
-                Row(
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        title: const Text('إدارة المواد الخام', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                child: Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: _loadData,
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'بحث عن مادة خام...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _searchQuery = value;
+                            _filteredRawMaterials = _rawMaterials.where((c) => c.materialType.contains(value)).toList();
+                          });
+                        },
+                      ),
                     ),
+                    const SizedBox(width: 16),
                     ElevatedButton.icon(
+                      onPressed: () {/* إضافة مادة خام */},
                       icon: const Icon(Icons.add),
                       label: const Text('إضافة مادة خام'),
-                      onPressed: _showAddRawMaterialDialog,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(UIConstants.paddingLarge),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: Colors.grey.shade200, width: 1),
+                        ),
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                          itemCount: _filteredRawMaterials.length,
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final item = _filteredRawMaterials[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: AppTheme.primaryGold.withOpacity(0.1),
+                                child: const Icon(Icons.widgets, color: AppTheme.primaryGold),
+                              ),
+                              title: Text(item.materialType, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(item.status),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {/* تعديل */},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {/* حذف */},
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+              ),
+            ],
           ),
-          // شريط البحث والفلاتر
-          _buildSearchAndFilters(),
-          
-          // إحصائيات سريعة
-          _buildQuickStats(),
-          
-          // قائمة المواد الخام
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredRawMaterials.isEmpty
-                    ? _buildEmptyState()
-                    : _buildRawMaterialsList(),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildSearchAndFilters() {
+  Widget _buildSearchAndFilters(AppLocalizations localizations) {
     return Container(
       padding: const EdgeInsets.all(UIConstants.paddingMedium),
       child: Column(
@@ -192,30 +244,28 @@ class _RawMaterialManagementScreenState extends ConsumerState<RawMaterialManagem
           // شريط البحث
           TextField(
             controller: _searchController,
-            decoration: const InputDecoration(
-              labelText: 'البحث في المواد الخام',
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: localizations.translate('search_raw_materials') ?? 'البحث في المواد الخام',
+              prefixIcon: const Icon(Icons.search),
+              border: const OutlineInputBorder(),
             ),
             onChanged: _filterRawMaterials,
           ),
-          
           const SizedBox(height: UIConstants.paddingSmall),
-          
           // فلتر الحالة
           Row(
             children: [
-              const Text('الحالة: '),
+              Text(localizations.translate('status') ?? 'الحالة: '),
               const SizedBox(width: UIConstants.paddingSmall),
               Expanded(
                 child: DropdownButton<String>(
                   value: _selectedStatus,
                   isExpanded: true,
-                  items: const [
-                    DropdownMenuItem(value: 'all', child: Text('جميع الحالات')),
-                    DropdownMenuItem(value: 'available', child: Text('متاح')),
-                    DropdownMenuItem(value: 'assigned', child: Text('مخصص')),
-                    DropdownMenuItem(value: 'consumed', child: Text('مستهلك')),
+                  items: [
+                    DropdownMenuItem(value: 'all', child: Text(localizations.translate('all') ?? 'جميع الحالات')),
+                    DropdownMenuItem(value: 'available', child: Text(localizations.translate('available') ?? 'متاح')),
+                    DropdownMenuItem(value: 'assigned', child: Text(localizations.translate('assigned') ?? 'مخصص')),
+                    DropdownMenuItem(value: 'consumed', child: Text(localizations.translate('consumed') ?? 'مستهلك')),
                   ],
                   onChanged: (value) {
                     if (value != null) _filterByStatus(value);
@@ -304,7 +354,7 @@ class _RawMaterialManagementScreenState extends ConsumerState<RawMaterialManagem
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations localizations) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -316,7 +366,7 @@ class _RawMaterialManagementScreenState extends ConsumerState<RawMaterialManagem
           ),
           const SizedBox(height: UIConstants.paddingMedium),
           Text(
-            _searchQuery.isEmpty ? 'لا توجد مواد خام مسجلة' : 'لا توجد نتائج للبحث',
+            _searchQuery.isEmpty ? (localizations.translate('no_raw_materials') ?? 'لا توجد مواد خام مسجلة') : (localizations.translate('no_results') ?? 'لا توجد نتائج للبحث'),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: AppTheme.grey600,
             ),
@@ -326,7 +376,7 @@ class _RawMaterialManagementScreenState extends ConsumerState<RawMaterialManagem
             ElevatedButton.icon(
               onPressed: _showAddRawMaterialDialog,
               icon: const Icon(Icons.add),
-              label: const Text('إضافة مادة خام جديدة'),
+              label: Text(localizations.translate('add_new_raw_material') ?? 'إضافة مادة خام جديدة'),
             ),
         ],
       ),
@@ -528,6 +578,8 @@ class _AddRawMaterialDialogState extends State<AddRawMaterialDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    
     return Dialog(
       child: Container(
         width: 600,
@@ -539,7 +591,7 @@ class _AddRawMaterialDialogState extends State<AddRawMaterialDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'إضافة مادة خام جديدة',
+                localizations.translate('add_new_raw_material') ?? 'إضافة مادة خام جديدة',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -764,6 +816,8 @@ class RawMaterialDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    
     return Dialog(
       child: Container(
         width: 500,
@@ -815,13 +869,13 @@ class RawMaterialDetailsDialog extends StatelessWidget {
             // معلومات أساسية
             _buildInfoSection(
               context,
-              'المعلومات الأساسية',
+              localizations.translate('basic_info') ?? 'المعلومات الأساسية',
               [
-                _buildInfoRow('العميل', rawMaterial.clientName ?? 'غير محدد'),
-                _buildInfoRow('نوع المادة', rawMaterial.materialType),
-                _buildInfoRow('العيار', rawMaterial.karat),
-                _buildInfoRow('الوزن', '${rawMaterial.weight.toStringAsFixed(3)} جرام'),
-                _buildInfoRow('الحالة', _getStatusText(rawMaterial.status)),
+                _buildInfoRow(localizations.translate('client') ?? 'العميل', rawMaterial.clientName ?? 'غير محدد'),
+                _buildInfoRow(localizations.translate('material_type') ?? 'نوع المادة', rawMaterial.materialType),
+                _buildInfoRow(localizations.translate('karat') ?? 'العيار', rawMaterial.karat),
+                _buildInfoRow(localizations.translate('weight') ?? 'الوزن', '${rawMaterial.weight.toStringAsFixed(3)} جرام'),
+                _buildInfoRow(localizations.translate('status') ?? 'الحالة', _getStatusText(rawMaterial.status)),
               ],
             ),
             
@@ -830,16 +884,16 @@ class RawMaterialDetailsDialog extends StatelessWidget {
             // معلومات إضافية
             _buildInfoSection(
               context,
-              'معلومات إضافية',
+              localizations.translate('additional_info') ?? 'معلومات إضافية',
               [
-                _buildInfoRow('تاريخ الاستلام', rawMaterial.intakeDate.toString().split(' ')[0]),
+                _buildInfoRow(localizations.translate('intake_date') ?? 'تاريخ الاستلام', rawMaterial.intakeDate.toString().split(' ')[0]),
                 if (rawMaterial.purityPercentage != null)
-                  _buildInfoRow('نسبة النقاء', '${rawMaterial.purityPercentage!.toStringAsFixed(2)}%'),
+                  _buildInfoRow(localizations.translate('purity_percentage') ?? 'نسبة النقاء', '${rawMaterial.purityPercentage!.toStringAsFixed(2)}%'),
                 if (rawMaterial.estimatedValue != null)
-                  _buildInfoRow('القيمة المقدرة', '${rawMaterial.estimatedValue!.toStringAsFixed(2)} ريال'),
-                _buildInfoRow('تاريخ الإدخال', rawMaterial.createdAt.toString().split(' ')[0]),
+                  _buildInfoRow(localizations.translate('estimated_value') ?? 'القيمة المقدرة', '${rawMaterial.estimatedValue!.toStringAsFixed(2)} ريال'),
+                _buildInfoRow(localizations.translate('created_at') ?? 'تاريخ الإدخال', rawMaterial.createdAt.toString().split(' ')[0]),
                 if (rawMaterial.createdByName != null)
-                  _buildInfoRow('أدخل بواسطة', rawMaterial.createdByName!),
+                  _buildInfoRow(localizations.translate('created_by') ?? 'أدخل بواسطة', rawMaterial.createdByName!),
               ],
             ),
             
@@ -847,7 +901,7 @@ class RawMaterialDetailsDialog extends StatelessWidget {
               const SizedBox(height: UIConstants.paddingMedium),
               _buildInfoSection(
                 context,
-                'ملاحظات',
+                localizations.translate('notes') ?? 'ملاحظات',
                 [
                   Text(rawMaterial.notes!),
                 ],

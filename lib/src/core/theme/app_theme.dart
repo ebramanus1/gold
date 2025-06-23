@@ -31,6 +31,7 @@ class AppTheme {
   static const Color grey700 = Color(0xFF616161);
   static const Color grey800 = Color(0xFF424242);
   static const Color grey900 = Color(0xFF212121);
+  static const Color background = grey100;
 
   // الثيم الفاتح
   static ThemeData get lightTheme {

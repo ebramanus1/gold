@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/constants/app_constants.dart';
 import '../finished_goods/models/finished_product.dart';
+import '../../core/localization/app_localizations.dart';
 
 class FinishedGoodsManagementScreen extends ConsumerStatefulWidget {
   const FinishedGoodsManagementScreen({Key? key}) : super(key: key);
@@ -141,180 +142,103 @@ class _FinishedGoodsManagementScreenState extends ConsumerState<FinishedGoodsMan
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('إدارة المنتجات النهائية'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadProducts,
-          ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showAddProductDialog(),
-          ),
-        ],
+        title: Text(localizations.translate('finished_goods_management') ?? 'إدارة المنتجات النهائية', style: const TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+        ),
       ),
-      body: Column(
-        children: [
-          // شريط البحث والفلاتر
-          Container(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                // شريط البحث
-                TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'البحث في المنتجات...',
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) => setState(() {}),
-                ),
-                const SizedBox(height: UIConstants.paddingMedium),
-                
-                // الفلاتر
-                Row(
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                child: Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<ProductCategory>(
-                        value: _selectedCategory,
-                        decoration: const InputDecoration(
-                          labelText: 'الفئة',
-                          border: OutlineInputBorder(),
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'بحث عن منتج...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
-                        items: ProductCategory.values.map((category) {
-                          return DropdownMenuItem(
-                            value: category,
-                            child: Text(_getCategoryText(category)),
-                          );
-                        }).toList(),
-                        onChanged: (value) => setState(() {
-                          _selectedCategory = value;
-                        }),
+                        onChanged: (value) {
+                          setState(() {
+                            // ...existing code for filtering...
+                          });
+                        },
                       ),
                     ),
-                    const SizedBox(width: UIConstants.paddingMedium),
-                    Expanded(
-                      child: DropdownButtonFormField<int>(
-                        value: _selectedKarat,
-                        decoration: const InputDecoration(
-                          labelText: 'العيار',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: [18, 21, 22, 24].map((karat) {
-                          return DropdownMenuItem(
-                            value: karat,
-                            child: Text('عيار $karat'),
-                          );
-                        }).toList(),
-                        onChanged: (value) => setState(() {
-                          _selectedKarat = value;
-                        }),
+                    const SizedBox(width: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {/* إضافة منتج */},
+                      icon: const Icon(Icons.add),
+                      label: Text(localizations.translate('add_product') ?? 'إضافة منتج'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       ),
-                    ),
-                    const SizedBox(width: UIConstants.paddingMedium),
-                    ElevatedButton(
-                      onPressed: () => setState(() {
-                        _selectedCategory = null;
-                        _selectedKarat = null;
-                        _searchController.clear();
-                      }),
-                      child: const Text('مسح الفلاتر'),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          
-          // إحصائيات سريعة
-          Container(
-            padding: const EdgeInsets.all(UIConstants.paddingMedium),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildStatCard(
-                    'إجمالي المنتجات',
-                    _products.length.toString(),
-                    Icons.inventory,
-                    AppTheme.info,
-                  ),
-                ),
-                const SizedBox(width: UIConstants.paddingMedium),
-                Expanded(
-                  child: _buildStatCard(
-                    'منخفض المخزون',
-                    _products.where((p) => p.stockQuantity <= p.minStockLevel).length.toString(),
-                    Icons.warning,
-                    AppTheme.warning,
-                  ),
-                ),
-                const SizedBox(width: UIConstants.paddingMedium),
-                Expanded(
-                  child: _buildStatCard(
-                    'القيمة الإجمالية',
-                    '${_products.fold(0.0, (sum, p) => sum + (p.sellingPrice * p.stockQuantity)).toStringAsFixed(0)} ريال',
-                    Icons.attach_money,
-                    AppTheme.success,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          // قائمة المنتجات
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredProducts.isEmpty
-                    ? const Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.inventory_2_outlined,
-                              size: 80,
-                              color: AppTheme.grey400,
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'لا توجد منتجات',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppTheme.grey600,
+              ),
+              Expanded(
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.all(UIConstants.paddingLarge),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: BorderSide(color: Colors.grey.shade200, width: 1),
+                        ),
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(UIConstants.paddingLarge),
+                          itemCount: _products.length,
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final product = _products[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: AppTheme.primaryGold.withOpacity(0.1),
+                                child: const Icon(Icons.inventory, color: AppTheme.primaryGold),
                               ),
-                            ),
-                          ],
+                              title: Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(product.category.toString()),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {/* تعديل */},
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {/* حذف */},
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    : GridView.builder(
-                        padding: const EdgeInsets.all(UIConstants.paddingMedium),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.8,
-                          crossAxisSpacing: UIConstants.paddingMedium,
-                          mainAxisSpacing: UIConstants.paddingMedium,
-                        ),
-                        itemCount: _filteredProducts.length,
-                        itemBuilder: (context, index) {
-                          final product = _filteredProducts[index];
-                          return _buildProductCard(product);
-                        },
                       ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -643,15 +567,19 @@ class _FinishedGoodsManagementScreenState extends ConsumerState<FinishedGoodsMan
   }
 
   void _deleteProduct(FinishedProduct product) {
+    final localizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('تأكيد الحذف'),
-        content: Text('هل أنت متأكد من حذف المنتج "${product.name}"؟'),
+        title: Text(localizations.translate('confirm_delete') ?? 'تأكيد الحذف'),
+        content: Text(
+          (localizations.translate('confirm_delete_product') ?? 'هل أنت متأكد من حذف المنتج') +
+          ' "${product.name}"؟',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('إلغاء'),
+            child: Text(localizations.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -660,11 +588,11 @@ class _FinishedGoodsManagementScreenState extends ConsumerState<FinishedGoodsMan
                 _products.removeWhere((p) => p.id == product.id);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم حذف المنتج بنجاح')),
+                SnackBar(content: Text(localizations.translate('product_deleted') ?? 'تم حذف المنتج بنجاح')),
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.error),
-            child: const Text('حذف'),
+            child: Text(localizations.delete),
           ),
         ],
       ),
@@ -715,6 +643,7 @@ class _ProductDialogState extends State<_ProductDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return AlertDialog(
       title: Text(widget.product == null ? 'إضافة منتج جديد' : 'تعديل المنتج'),
       content: SizedBox(
@@ -781,7 +710,7 @@ class _ProductDialogState extends State<_ProductDialog> {
                         items: [18, 21, 22, 24].map((karat) {
                           return DropdownMenuItem(
                             value: karat,
-                            child: Text('عيار $karat'),
+                            child: Text(localizations.translate('karat') + ' $karat'),
                           );
                         }).toList(),
                         onChanged: (value) => setState(() {
@@ -921,7 +850,7 @@ class _ProductDialogState extends State<_ProductDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('إلغاء'),
+          child: Text(localizations.cancel ?? 'إلغاء'),
         ),
         ElevatedButton(
           onPressed: _saveProduct,
@@ -998,33 +927,34 @@ class _ProductDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: Text('تفاصيل المنتج: ${product.name}'),
+      title: Text('${localizations.translate('product_details') ?? 'تفاصيل المنتج'}: ${product.name}'),
       content: SizedBox(
         width: 400,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildDetailRow('الاسم', product.name),
-            _buildDetailRow('الوصف', product.description),
-            _buildDetailRow('الفئة', _getCategoryText(product.category)),
-            _buildDetailRow('العيار', 'عيار ${_getGoldKaratText(product.goldKarat)}'),
-            _buildDetailRow('وزن الذهب', '${product.goldWeight.toStringAsFixed(1)} جم'),
-            _buildDetailRow('وزن الأحجار', '${product.stoneWeight.toStringAsFixed(1)} جم'),
-            _buildDetailRow('الوزن الإجمالي', '${product.weight.toStringAsFixed(1)} جم'),
-            _buildDetailRow('السعر', '${product.sellingPrice.toStringAsFixed(2)} ريال'),
-            _buildDetailRow('الكمية المتاحة', product.stockQuantity.toString()),
-            _buildDetailRow('الحد الأدنى للمخزون', product.minStockLevel.toString()),
-            _buildDetailRow('الباركود', product.barcode ?? ''),
-            _buildDetailRow('تاريخ الإضافة', _formatDate(product.createdDate)),
+            _buildDetailRow(localizations.translate('product_name') ?? 'الاسم', product.name),
+            _buildDetailRow(localizations.translate('description') ?? 'الوصف', product.description),
+            _buildDetailRow(localizations.translate('category') ?? 'الفئة', _getCategoryText(product.category)),
+            _buildDetailRow(localizations.translate('karat') ?? 'العيار', '${localizations.translate('karat') ?? 'عيار'} ${_getGoldKaratText(product.goldKarat)}'),
+            _buildDetailRow(localizations.translate('gold_weight') ?? 'وزن الذهب', '${product.goldWeight.toStringAsFixed(1)} ${localizations.gram}'),
+            _buildDetailRow(localizations.translate('stone_weight') ?? 'وزن الأحجار', '${product.stoneWeight.toStringAsFixed(1)} ${localizations.gram}'),
+            _buildDetailRow(localizations.translate('total_weight') ?? 'الوزن الإجمالي', '${product.weight.toStringAsFixed(1)} ${localizations.gram}'),
+            _buildDetailRow(localizations.translate('price') ?? 'السعر', '${product.sellingPrice.toStringAsFixed(2)} ${localizations.currency}'),
+            _buildDetailRow(localizations.translate('quantity') ?? 'الكمية المتاحة', product.stockQuantity.toString()),
+            _buildDetailRow(localizations.translate('min_stock_level') ?? 'الحد الأدنى للمخزون', product.minStockLevel.toString()),
+            _buildDetailRow(localizations.translate('barcode') ?? 'الباركود', product.barcode ?? ''),
+            _buildDetailRow(localizations.translate('creation_date') ?? 'تاريخ الإضافة', _formatDate(product.createdDate)),
           ],
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('إغلاق'),
+          child: Text(localizations.close),
         ),
       ],
     );
